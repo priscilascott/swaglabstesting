@@ -1,6 +1,8 @@
 import LoginPage from "../pageObjects/login.page";
 import AddProductstoCart from "../pageObjects/add-products-to-cart.page";
 import CartButton from "../pageObjects/components/cartButton.comp";
+import Inventory from "../pageObjects/inventory.page";
+import YourCart from "../pageObjects/your-cart.page";
 
 describe('Validates the steps to add products to the cart, calculates total and checkout', async() => {
     beforeEach(async() => {
@@ -24,14 +26,14 @@ describe('Validates the steps to add products to the cart, calculates total and 
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
         await AddProductstoCart.yourCartPage_ContinueShoppingButton.click();
-        await expect(AddProductstoCart.productsHeader).toHaveText("PRODUCTS");
+        await expect(Inventory.productsHeader).toHaveText("PRODUCTS");
     });
-    it('Valid Test - "Cancel" button: Checkout Your Info. Page', async() => {
+    it.only('Valid Test - "Cancel" button: Checkout Your Info. Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
         await AddProductstoCart.checkoutButton.click();
         await AddProductstoCart.checkoutYourInfoPage_CancelButton.click();
-        await expect(AddProductstoCart.yourCartHeader).toHaveText("YOUR CART");
+        await expect(YourCart.yourCartHeader).toHaveText("YOUR CART");
     });
     it('Valid Test - "Cancel" button: Checkout Overview Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
@@ -43,12 +45,17 @@ describe('Validates the steps to add products to the cart, calculates total and 
         await expect(AddProductstoCart.productsHeader).toHaveText("PRODUCTS");
         await browser.pause(3000);
     });
-    it('Valid test - Removes an item from the basket', async() => {
+    it('Valid test - Removes items from the basket - Inventory Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(3,0);
         await AddProductstoCart.removeProductsFromCart(3,0);
         await browser.pause(5000);
     });
-
+    it('Valid test - Removes item from the basket - Your Cart Page', async() => {
+        await AddProductstoCart.addProductsToCart_CalculateTotal(4,0)
+        await CartButton.cartButton.click();
+        await AddProductstoCart.removeProductsFromCart(4,0);
+        await browser.pause(5000);
+    });
     //Open an item to check description
     //Break the functions page into more page.js files.
     //Allure Reports

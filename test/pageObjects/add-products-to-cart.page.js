@@ -1,3 +1,5 @@
+
+
 class AddProductstoCart {
   constructor() {
     this.productNameHeader = [];
@@ -5,14 +7,7 @@ class AddProductstoCart {
     this.priceTotal;
     this.feeValue;
   }
-  //Products Page (inventory)
-  get productsHeader(){
-    return $(".title");
-  }
-  //Your Cart Page
-  get yourCartHeader(){
-    return $(".title");
-  }
+
   //Products & Prices Selectors:
   get sauceLabsBackpackSelector() {
     return $("#item_4_title_link");
@@ -130,8 +125,6 @@ class AddProductstoCart {
   get removeButtonRedTShirt(){
     return $("/html//button[@id='remove-test.allthethings()-t-shirt-(red)']");
   }
-
-
   async addProductsToCart_CalculateTotal(itemId1, itemId2) {
     //Adds products to the cart
     var productsID = [];
@@ -320,7 +313,7 @@ class AddProductstoCart {
       this.removeButtonRedTShirt.click();
     }
     else{
-      console.log("PRISCILA SCOTT ERROR");
+      console.log("ERROR REMOVING PRODUCT FROM THE BASKET");
     }
   }
 }
