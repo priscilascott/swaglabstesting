@@ -1,8 +1,11 @@
 import LoginPage from "../pageObjects/login.page";
 import AddProductstoCart from "../pageObjects/add-products-to-cart.page";
 import CartButton from "../pageObjects/components/cartButton.comp";
-import Inventory from "../pageObjects/inventory.page";
 import YourCart from "../pageObjects/your-cart.page";
+import YourInformation from "../pageObjects/your-information.page";
+import Overview from "../pageObjects/overview.page"
+import CheckoutComplete from "../pageObjects/checkout-complete.page";
+import RemoveProductsFromCart from "../pageObjects/remove-products-from-cart.page";
 
 describe('Validates the steps to add products to the cart, calculates total and checkout', async() => {
     beforeEach(async() => {
@@ -13,48 +16,46 @@ describe('Validates the steps to add products to the cart, calculates total and 
     it('Valid Test - Add products to the basket', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
-        await AddProductstoCart.checkoutProductsSelected();
-        await AddProductstoCart.checkoutButton.click();
-        await AddProductstoCart.addYourInformationToCheckout();
-        await AddProductstoCart.continueButton.click();
-        await AddProductstoCart.addAssertionsCheckoutOverviewPage();
-        await AddProductstoCart.finishButton.click();
-        await AddProductstoCart.addAssertionsCheckoutCompletePage();
+        await YourCart.checkoutProductsSelected();
+        await YourCart.yourCartPage_checkoutButton.click();
+        await YourInformation.addYourInformationToCheckout();
+        await YourInformation.continueButton.click();
+        await Overview.addAssertionsCheckoutOverviewPage();
+        await Overview.finishButton.click();
+        await CheckoutComplete.addAssertionsCheckoutCompletePage();
     });
     //Cancel Button
     it('Valid Test - Validates "Cancel" button: Your Cart Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
-        await AddProductstoCart.yourCartPage_ContinueShoppingButton.click();
-        await expect(Inventory.productsHeader).toHaveText("PRODUCTS");
+        await YourCart.yourCartPage_ContinueShoppingButton.click();
+        await expect(AddProductstoCart.productsHeader).toHaveText("PRODUCTS");
     });
-    it.only('Valid Test - "Cancel" button: Checkout Your Info. Page', async() => {
+    it('Valid Test - "Cancel" button: Checkout Your Info. Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
-        await AddProductstoCart.checkoutButton.click();
-        await AddProductstoCart.checkoutYourInfoPage_CancelButton.click();
+        await YourCart.yourCartPage_checkoutButton.click();
+        await YourInformation.checkoutYourInfoPage_CancelButton.click();
         await expect(YourCart.yourCartHeader).toHaveText("YOUR CART");
     });
     it('Valid Test - "Cancel" button: Checkout Overview Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
-        await AddProductstoCart.checkoutButton.click();
-        await AddProductstoCart.addYourInformationToCheckout();
-        await AddProductstoCart.continueButton.click();
-        await AddProductstoCart.checkoutOverviewPage_CancelButton.click();
+        await YourCart.yourCartPage_checkoutButton.click();
+        await YourInformation.addYourInformationToCheckout();
+        await YourInformation.continueButton.click();
+        await Overview.checkoutOverviewPage_CancelButton.click();
         await expect(AddProductstoCart.productsHeader).toHaveText("PRODUCTS");
         await browser.pause(3000);
     });
     it('Valid test - Removes items from the basket - Inventory Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(3,0);
-        await AddProductstoCart.removeProductsFromCart(3,0);
-        await browser.pause(5000);
+        await RemoveProductsFromCart.removeProductsFromCart(3,0);
     });
     it('Valid test - Removes item from the basket - Your Cart Page', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0)
         await CartButton.cartButton.click();
-        await AddProductstoCart.removeProductsFromCart(4,0);
-        await browser.pause(5000);
+        await RemoveProductsFromCart.removeProductsFromCart(4,0);
     });
     //Open an item to check description
     //Break the functions page into more page.js files.
