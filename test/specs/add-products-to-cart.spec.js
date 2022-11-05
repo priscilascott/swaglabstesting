@@ -6,6 +6,8 @@ import YourInformation from "../pageObjects/your-information.page";
 import Overview from "../pageObjects/overview.page"
 import CheckoutComplete from "../pageObjects/checkout-complete.page";
 import RemoveProductsFromCart from "../pageObjects/remove-products-from-cart.page";
+import ProductDetailsPage from "../pageObjects/product-details.page";
+
 
 describe('Validates the steps to add products to the cart, calculates total and checkout', async() => {
     beforeEach(async() => {
@@ -15,6 +17,7 @@ describe('Validates the steps to add products to the cart, calculates total and 
     });
     it('Valid Test - Add products to the basket', async() => {
         await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
+        await expect(CartButton.shoppingCartBadge).toBeDisplayed();
         await CartButton.cartButton.click();
         await YourCart.checkoutProductsSelected();
         await YourCart.yourCartPage_checkoutButton.click();
@@ -53,11 +56,16 @@ describe('Validates the steps to add products to the cart, calculates total and 
         await RemoveProductsFromCart.removeProductsFromCart(3,0);
     });
     it('Valid test - Removes item from the basket - Your Cart Page', async() => {
-        await AddProductstoCart.addProductsToCart_CalculateTotal(4,0)
+        await AddProductstoCart.addProductsToCart_CalculateTotal(4,0);
         await CartButton.cartButton.click();
         await RemoveProductsFromCart.removeProductsFromCart(4,0);
     });
-    //Open an item to check description
-    //Break the functions page into more page.js files.
+    it('Valid test - Opens an item and check description', async() => {
+        await AddProductstoCart.selectImage(0); 
+        await ProductDetailsPage.assertions(0);
+        await browser.pause(2000); 
+        await ProductDetailsPage.buttonBackToProducts_DetailsPage.click();    
+        await browser.pause(2000);  
+    });
     //Allure Reports
 });
